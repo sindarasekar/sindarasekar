@@ -1,1 +1,1 @@
-# portofolio-sindara.github.io
+# sindarasekar.github.io
