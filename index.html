@@ -3,109 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sindara Sekar | Web Profil</title>
+    <title>Portofolio Sindara Sekar</title>
     <style>
-        :root {
-            --bg-color: #f4f4f9;
-            --text-color: #333;
-            --card-bg: #fff;
-            --accent: #007bff;
-        }
-        body.dark-mode {
-            --bg-color: #1a1a2e;
-            --text-color: #e0e0e0;
-            --card-bg: #16213e;
-            --accent: #e94560;
-        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background-color 0.4s, color 0.4s;
-            margin: 0; padding: 30px 20px;
-            display: flex; justify-content: center;
+            background-color: #f0e9d2; /* Warna dasar seperti kertas tua */
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif; /* Font kasual */
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
         }
-        .container {
-            max-width: 650px; width: 100%;
-            background: var(--card-bg);
-            padding: 30px; border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-            transition: background-color 0.4s;
+
+        .scrapbook-container {
+            width: 100%;
+            max-width: 800px;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
         }
-        .header-flex { 
-            display: flex; justify-content: space-between; align-items: center; 
-            border-bottom: 2px solid var(--accent); padding-bottom: 10px;
+
+        /* Gaya Kertas Tempelan (Sticky Notes) */
+        .sticky-note {
+            background: #ffeb3b;
+            padding: 15px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+            transform: rotate(-2deg);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
         }
-        button {
-            padding: 10px 15px; cursor: pointer;
-            background: var(--accent); color: #fff;
-            border: none; border-radius: 8px; font-weight: bold;
-            transition: transform 0.2s;
+
+        .sticky-note:hover {
+            transform: scale(1.05) rotate(0deg);
+            z-index: 10;
         }
-        button:hover { transform: scale(1.05); }
-        #typewriter {
-            font-family: 'Courier New', Courier, monospace;
-            color: var(--accent); font-size: 1.1em; 
-            min-height: 25px; margin: 20px 0; font-weight: bold;
+
+        .sticky-blue { background: #b3e5fc; transform: rotate(1deg); }
+        .sticky-pink { background: #f8bbd0; transform: rotate(-1deg); }
+
+        /* Gambar Polaroid / Tempelan */
+        .polaroid {
+            background: white;
+            padding: 10px 10px 30px 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+            transition: transform 0.3s;
+            margin: 10px;
+            display: inline-block;
+            vertical-align: top;
         }
-        .skill-card {
-            background: var(--bg-color);
-            padding: 15px; margin-top: 15px;
-            border-radius: 8px; border-left: 5px solid var(--accent);
-            transition: transform 0.3s, box-shadow 0.3s;
+        
+        .polaroid img {
+            max-width: 150px;
+            height: auto;
         }
-        .skill-card:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
+        .polaroid:hover {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        /* Penempatan Absolut untuk Kesan Berantakan */
+        .profile-pic {
+            position: relative;
+            width: 250px;
+            border: 10px solid white;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            transform: rotate(-3deg);
+            transition: transform 0.3s;
+        }
+        .profile-pic:hover { transform: scale(1.05) rotate(0deg); }
+
+        .header-title {
+            font-size: 3em;
+            color: #1b5e20;
+            text-shadow: 2px 2px #a5d6a7;
+            margin-bottom: 0;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header-flex">
-        <h1 style="margin: 0;">Terminal Profil</h1>
-        <button onclick="toggleTheme()">🌓 Mode Gelap</button>
-    </div>
-    
-    <p id="typewriter"></p>
 
-    <p><strong>Nama:</strong> Sindara Sekar Prameswari</p>
-    <p><strong>NIM:</strong> 2405110026</p>
-    <p><strong>Program Studi:</strong> Teknik Komputer (Angkatan 2024)</p>
-    <p><strong>Kesibukan:</strong> Kuliah, aktif di Novo Club, dan ngulik proyek *hardware/software*.</p>
+<div class="scrapbook-container">
     
-    <h3>Fokus IT & Proyek:</h3>
-    <div class="skill-card">
-        <strong>🤖 Embedded Systems & Hardware</strong>
-        <p>Eksperimen mikrokontroler Arduino Uno, sensor RGB, dan merancang simulasi kontrol PID (Proportional-Integral-Derivative).</p>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px;">
+        <img src="image_2aace4.jpg" alt="Sindara Profil" class="profile-pic">
+        <div>
+            <h1 class="header-title">Hi, I'm Sindara!</h1>
+            <p style="font-size: 1.2em; max-width: 400px;">
+                Mahasiswa Teknik Komputer yang <em>passionate</em> bikin web, mobile app, riset AI, dan ngulik hardware Arduino!
+            </p>
+            <div class="sticky-note sticky-pink" style="display: inline-block;">
+                <strong>Contact Me:</strong><br>
+                WA: 08121441491<br>
+                LinkedIn: <a href="https://www.linkedin.com/in/sindara-prameswari-080764320?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank">Sindara Prameswari</a>
+            </div>
+        </div>
     </div>
-    <div class="skill-card">
-        <strong>👁️ Computer Vision & Deep Learning</strong>
-        <p>Mendalami arsitektur *transfer learning* seperti ResNet50 dan EfficientNetB3, terutama untuk klasifikasi citra medis.</p>
+
+    <!-- QR Codes -->
+    <div style="margin-top: 20px;">
+        <div class="polaroid" style="transform: rotate(-5deg);">
+            <img src="image_2aad49.png" alt="QR WA">
+            <p>Scan WA</p>
+        </div>
+        <div class="polaroid" style="transform: rotate(3deg);">
+            <img src="image_2ab06c.png" alt="QR IG">
+            <p>@sindaraaskr</p>
+        </div>
     </div>
-    <div class="skill-card">
-        <strong>📱 UI/Mobile App Development</strong>
-        <p>Merancang antarmuka interaktif dan *layouting* menggunakan Jetpack Compose di Android Studio.</p>
+
+    <div class="grid-container" style="margin-top: 30px;">
+        <!-- Kolom Kiri -->
+        <div>
+            <div class="sticky-note">
+                <h3>🛠️ Keahlian IT</h3>
+                <ul>
+                    <li>Web & Mobile App Development</li>
+                    <li>Simulasi Matlab Level Pro</li>
+                    <li>Implementasi Hardware Arduino</li>
+                    <li>Riset AI (Artificial Intelligence)</li>
+                </ul>
+            </div>
+            
+            <div class="sticky-note sticky-blue">
+                <h3>🎨 Keahlian Lain</h3>
+                <ul>
+                    <li>Content Creator</li>
+                    <li>Public Speaker</li>
+                    <li>Desain Grafis</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Kolom Kanan -->
+        <div>
+            <div class="sticky-note sticky-pink">
+                <h3>👥 Pengalaman Organisasi</h3>
+                <p>Aktif berorganisasi untuk mengembangkan soft skill dan kepemimpinan:</p>
+                <ul>
+                    <li><strong>HIMPROTE FT UNNES</strong></li>
+                    <li><strong>HMW FT UNNES</strong></li>
+                </ul>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <img src="image_2ab145.jpg" style="width: 100px; border: 3px solid white; transform: rotate(-2deg);">
+                    <img src="image_2ab44e.jpg" style="width: 100px; border: 3px solid white; transform: rotate(2deg);">
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Sertifikasi -->
+    <div style="margin-top: 30px;">
+        <h2 style="text-align: center; color: #d84315; border-bottom: 2px dashed #333; padding-bottom: 10px;">🏆 Sertifikasi & Penghargaan</h2>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+            <img src="image_2b0add.jpg" style="width: 200px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <img src="image_2b0ae2.jpg" style="width: 200px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <img src="image_2b0afc.jpg" style="width: 200px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        </div>
+    </div>
+
 </div>
 
-<script>
-    // Fitur 1: Dark Mode Toggle
-    function toggleTheme() {
-        document.body.classList.toggle('dark-mode');
-    }
-
-    // Fitur 2: Efek Ngetik (Typewriter)
-    const text = "> sudo System.out.println(\"Calon Software/Hardware Engineer siap belajar...\");";
-    let i = 0;
-    function typeWriter() {
-        if (i < text.length) {
-            document.getElementById("typewriter").innerHTML += text.charAt(i);
-            i++;
-            setTimeout(typeWriter, 40);
-        }
-    }
-    window.onload = typeWriter;
-</script>
 </body>
 </html>
