@@ -3,56 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Mahasiswa - Sindara Sekar</title>
+    <title>Profil Web - Sindara Sekar Prameswari</title>
+    <!-- Import Font dan Ikon -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            line-height: 1.6;
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 20px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        body {
+            /* Latar belakang gradien pastel mirip referensi */
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
         }
-        h1 {
-            color: #2c3e50;
+        .resume-container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        /* Bagian Kiri (Sidebar) */
+        .sidebar {
+            background: #2c3e50;
+            color: #ffffff;
+            width: 35%;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
         }
-        .profile-info {
-            margin-top: 20px;
+        .profile-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #8ec5fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: #8ec5fc;
+            margin-bottom: 20px;
         }
-        .profile-info p {
-            margin: 10px 0;
+        .sidebar h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
         }
-        .label {
-            font-weight: bold;
-            display: inline-block;
-            width: 150px;
+        .sidebar h2 {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: #bdc3c7;
+            margin-bottom: 30px;
+        }
+        .sidebar-section {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .sidebar-section h3 {
+            font-size: 1rem;
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            color: #8ec5fc;
+        }
+        .sidebar-info {
+            list-style: none;
+        }
+        .sidebar-info li {
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar-info li i {
+            width: 25px;
+            color: #8ec5fc;
+        }
+        /* Bagian Kanan (Konten Utama) */
+        .main-content {
+            width: 65%;
+            padding: 40px;
+            background: #ffffff;
+        }
+        .content-section {
+            margin-bottom: 30px;
+        }
+        .content-section h3 {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .content-section h3 i {
+            margin-right: 10px;
+            color: #4a90e2;
+        }
+        .card {
+            background: #f8f9fa;
+            border-left: 4px solid #4a90e2;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .card p {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.6;
+        }
+        /* Responsivitas untuk HP */
+        @media (max-width: 768px) {
+            .resume-container {
+                flex-direction: column;
+            }
+            .sidebar, .main-content {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Profil Mahasiswa</h1>
-    
-    <div class="profile-info">
-        <p><span class="label">Nama Lengkap:</span> Sindara Sekar Prameswari</p>
-        <p><span class="label">NIM:</span> 2405110026 </p>
-        <p><span class="label">Program Studi:</span> Teknik Komputer, Universitas Negeri Semarang</p>
-        <p><span class="label">Tahun Angkatan:</span> 2024 </p>
-        <p><span class="label">Kesibukan:</span> Kuliah, aktif organisasi, sedang mengerjakan beberapa project.</p>
-        <p><span class="label">Cita-cita:</span> Menjadi Software/Hardware Engineer yang inovatif.</p>
-        <p><span class="label">Bidang IT Impian:</span> Expert di bidang Computer Vision (Deep Learning) dan Embedded Systems (IoT), khususnya dalam menggabungkan hardware Arduino dengan pemrosesan sinyal dan machine learning.</p>
+    <div class="resume-container">
+        <!-- Sidebar Kiri -->
+        <aside class="sidebar">
+            <div class="profile-icon">
+                <i class="fas fa-code"></i>
+            </div>
+            <h1>Sindara Sekar Prameswari</h1>
+            <h2>Mahasiswa Teknik Komputer</h2>
+
+            <div class="sidebar-section">
+                <h3>INFORMASI PRIBADI</h3>
+                <ul class="sidebar-info">
+                    <li><i class="fas fa-id-card"></i> NIM: [Isi NIM Kamu]</li>
+                    <li><i class="fas fa-graduation-cap"></i> Angkatan: [Isi Tahun Angkatan]</li>
+                    <li><i class="fas fa-university"></i> Universitas Negeri Semarang</li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>KONTAK</h3>
+                <ul class="sidebar-info">
+                    <li><i class="fas fa-envelope"></i> sindara@students.unnes.ac.id</li>
+                    <li><i class="fab fa-github"></i> github.com/sindarasekar</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Konten Kanan -->
+        <main class="main-content">
+            <div class="content-section">
+                <h3><i class="fas fa-calendar-alt"></i> Kesibukan Selain Kuliah</h3>
+                <div class="card">
+                    <p>Saat ini saya aktif sebagai bagian dari Novo Club, sebuah program kepemimpinan untuk mahasiswa. Selain kegiatan organisasi, saya banyak menghabiskan waktu mengembangkan proyek berbasis mikrokontroler seperti Arduino Uno, merancang sistem kontrol PID, serta mengeksplorasi pembuatan antarmuka aplikasi *mobile* menggunakan Jetpack Compose.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h3><i class="fas fa-rocket"></i> Cita-cita & Bidang IT</h3>
+                <div class="card">
+                    <p>Saya bercita-cita menjadi *Software/Hardware Engineer* yang mampu menciptakan solusi teknologi inovatif. Saya memiliki ketertarikan mendalam untuk menjadi ahli (*expert*) di bidang <strong>Computer Vision</strong> dan <strong>Embedded Systems (IoT)</strong>.</p>
+                    <br>
+                    <p>Fokus saya adalah mengintegrasikan perangkat keras dengan kecerdasan buatan, seperti mengimplementasikan arsitektur *Deep Learning* (ResNet50, MobileNetV2) ke dalam mikrokontroler untuk pemrosesan sinyal dan klasifikasi data secara langsung (*edge computing*).</p>
+                </div>
+            </div>
+        </main>
     </div>
-</div>
 
 </body>
 </html>
