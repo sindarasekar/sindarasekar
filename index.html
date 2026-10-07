@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio Sindara Sekar</title>
+    <title>Portofolio - Sindara Sekar</title>
     <style>
         body {
-            background-color: #f0e9d2; /* Warna dasar seperti kertas tua */
-            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif; /* Font kasual */
+            background-color: #f0e9d2;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
             color: #333;
             margin: 0;
             padding: 20px;
@@ -17,7 +17,7 @@
 
         .scrapbook-container {
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
             background: #fff;
             padding: 30px;
             box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
@@ -28,50 +28,28 @@
         /* Gaya Kertas Tempelan (Sticky Notes) */
         .sticky-note {
             background: #ffeb3b;
-            padding: 15px;
+            padding: 20px;
             box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
             transform: rotate(-2deg);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             transition: transform 0.3s;
         }
-
-        .sticky-note:hover {
-            transform: scale(1.05) rotate(0deg);
-            z-index: 10;
-        }
+        .sticky-note:hover { transform: scale(1.03) rotate(0deg); z-index: 10; }
 
         .sticky-blue { background: #b3e5fc; transform: rotate(1deg); }
         .sticky-pink { background: #f8bbd0; transform: rotate(-1deg); }
-
-        /* Gambar Polaroid / Tempelan */
-        .polaroid {
-            background: white;
-            padding: 10px 10px 30px 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            text-align: center;
-            transition: transform 0.3s;
-            margin: 10px;
-            display: inline-block;
-            vertical-align: top;
-        }
-        
-        .polaroid img {
-            max-width: 150px;
-            height: auto;
-        }
-
-        .polaroid:hover {
-            transform: scale(1.1) rotate(2deg);
-        }
+        .sticky-green { background: #c8e6c9; transform: rotate(2deg); }
 
         /* Penempatan Absolut untuk Kesan Berantakan */
         .profile-pic {
-            position: relative;
-            width: 250px;
+            width: 100%;
+            max-width: 250px;
+            height: auto;
             border: 10px solid white;
             box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
             transform: rotate(-3deg);
             transition: transform 0.3s;
+            object-fit: cover; /* Mencegah foto peyot */
         }
         .profile-pic:hover { transform: scale(1.05) rotate(0deg); }
 
@@ -79,19 +57,42 @@
             font-size: 3em;
             color: #1b5e20;
             text-shadow: 2px 2px #a5d6a7;
-            margin-bottom: 0;
+            margin-bottom: 5px;
+            margin-top: 0;
         }
 
         .grid-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 25px;
         }
 
-        @media (max-width: 600px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
+        /* Polaroid / QR Code */
+        .polaroid {
+            background: white;
+            padding: 10px 10px 25px 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+            display: inline-block;
+            margin-right: 15px;
+        }
+        .polaroid img { width: 100px; height: auto; }
+
+        /* Mencegah gambar sertifikat peyot */
+        .sertifikat-img {
+            width: 100%;
+            max-width: 230px;
+            height: auto;
+            object-fit: contain;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        .sertifikat-img:hover { transform: scale(1.1); }
+
+        @media (max-width: 768px) {
+            .grid-container { grid-template-columns: 1fr; }
+            .header-flex { flex-direction: column; text-align: center; }
+            .header-flex img { margin-bottom: 20px; }
         }
     </style>
 </head>
@@ -99,80 +100,80 @@
 
 <div class="scrapbook-container">
     
-    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px;">
+    <!-- Bagian Header & Profil Utama -->
+    <div class="header-flex" style="display: flex; gap: 30px; align-items: center; margin-bottom: 30px;">
         <img src="image_2aace4.jpg" alt="Sindara Profil" class="profile-pic">
         <div>
             <h1 class="header-title">Hi, I'm Sindara!</h1>
-            <p style="font-size: 1.2em; max-width: 400px;">
-                Mahasiswa Teknik Komputer yang <em>passionate</em> bikin web, mobile app, riset AI, dan ngulik hardware Arduino!
-            </p>
-            <div class="sticky-note sticky-pink" style="display: inline-block;">
-                <strong>Contact Me:</strong><br>
-                WA: 081214414910<br>
-                LinkedIn: <a href="https://www.linkedin.com/in/sindara-prameswari-080764320?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank">Sindara Prameswari</a>
+            
+            <div class="sticky-note sticky-green" style="margin-top: 15px; transform: rotate(0deg);">
+                <h3 style="margin-top: 0; border-bottom: 2px dashed #555;">Biodata Mahasiswa</h3>
+                <p style="margin: 5px 0;"><strong>Nama:</strong> Sindara Sekar Prameswari</p>
+                <p style="margin: 5px 0;"><strong>NIM:</strong> 2405110026</p>
+                <p style="margin: 5px 0;"><strong>Program Studi:</strong> Teknik Komputer</p>
+                <p style="margin: 5px 0;"><strong>Tahun Angkatan:</strong> 2024</p>
+                <p style="margin: 5px 0;"><strong>Cita-cita:</strong> Menjadi Software & Hardware Engineer Inovatif</p>
             </div>
         </div>
     </div>
 
-    <!-- QR Codes -->
-    <div style="margin-top: 20px;">
-        <div class="polaroid" style="transform: rotate(-5deg);">
-            <img src="image_2aad49.png" alt="QR WA">
-            <p>Scan WA</p>
-        </div>
-        <div class="polaroid" style="transform: rotate(3deg);">
-            <img src="image_2ab06c.png" alt="QR IG">
-            <p>@sindaraaskr</p>
-        </div>
-    </div>
-
-    <div class="grid-container" style="margin-top: 30px;">
+    <!-- Layout Grid untuk Info Lainnya -->
+    <div class="grid-container">
+        
         <!-- Kolom Kiri -->
         <div>
-            <div class="sticky-note">
-                <h3>🛠️ Keahlian IT</h3>
-                <ul>
-                    <li>Web & Mobile App Development</li>
-                    <li>Simulasi Matlab Level Pro</li>
-                    <li>Implementasi Hardware Arduino</li>
-                    <li>Riset AI (Artificial Intelligence)</li>
-                </ul>
-            </div>
-            
+            <!-- Kesibukan -->
             <div class="sticky-note sticky-blue">
-                <h3>🎨 Keahlian Lain</h3>
-                <ul>
-                    <li>Content Creator</li>
-                    <li>Public Speaker</li>
-                    <li>Desain Grafis</li>
-                </ul>
+                <h3 style="margin-top:0;">🏃‍♀️ Kesibukan Selain Kuliah</h3>
+                <p>Aktif berorganisasi di <strong>HIMPROTE FT UNNES</strong> dan <strong>HMW FT UNNES</strong>. Selain itu, saya juga sibuk mengembangkan skill sebagai Content Creator, Public Speaker, dan bereksperimen dengan proyek mikrokontroler.</p>
+                
+                <!-- Gambar Organisasi -->
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <img src="image_2ab145.jpg" style="width: 120px; height: 150px; object-fit: cover; border: 4px solid white; transform: rotate(-3deg); box-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
+                    <img src="image_2ab44e.jpg" style="width: 120px; height: 150px; object-fit: cover; border: 4px solid white; transform: rotate(3deg); box-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
+                </div>
+            </div>
+
+            <!-- Kontak / QR -->
+            <div style="margin-top: 20px;">
+                <div class="polaroid" style="transform: rotate(-5deg);">
+                    <img src="image_2aad49.png" alt="QR WA">
+                    <p style="margin: 5px 0 0 0; font-size: 14px;">Scan WA</p>
+                </div>
+                <div class="polaroid" style="transform: rotate(4deg);">
+                    <img src="image_2ab06c.png" alt="QR IG">
+                    <p style="margin: 5px 0 0 0; font-size: 14px;">@sindaraaskr</p>
+                </div>
             </div>
         </div>
 
         <!-- Kolom Kanan -->
         <div>
+            <!-- Bidang IT Expert -->
             <div class="sticky-note sticky-pink">
-                <h3>👥 Pengalaman Organisasi</h3>
-                <p>Aktif berorganisasi untuk mengembangkan soft skill dan kepemimpinan:</p>
-                <ul>
-                    <li><strong>HIMPROTE FT UNNES</strong></li>
-                    <li><strong>HMW FT UNNES</strong></li>
+                <h3 style="margin-top:0;">🎯 Bidang IT Impian (Expert)</h3>
+                <p>Saya bercita-cita menjadi expert di irisan antara hardware dan kecerdasan buatan, spesifiknya pada:</p>
+                <ul style="padding-left: 20px;">
+                    <li style="margin-bottom: 8px;"><strong>Computer Vision (AI):</strong> Mendalami riset *Deep Learning* (ResNet50, EfficientNetB3) untuk pengolahan citra medis dan deteksi objek.</li>
+                    <li style="margin-bottom: 8px;"><strong>Embedded Systems (IoT):</strong> Ahli dalam mengintegrasikan *hardware* (Arduino/ESP32) dengan sistem kontrol presisi (PID) untuk otomasi industri.</li>
+                    <li style="margin-bottom: 8px;"><strong>Mobile App Development:</strong> Mengembangkan aplikasi interaktif berbasis Android (Jetpack Compose).</li>
                 </ul>
-                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <img src="image_2ab145.jpg" style="width: 100px; border: 3px solid white; transform: rotate(-2deg);">
-                    <img src="image_2ab44e.jpg" style="width: 100px; border: 3px solid white; transform: rotate(2deg);">
-                </div>
+            </div>
+            
+            <div class="sticky-note">
+                <h3 style="margin-top:0;">🛠️ Technical Skills</h3>
+                <p style="margin-bottom: 0;">Simulasi Matlab Level Pro, C++, Python, VS Code, Desain Grafis, dan Desain Web.</p>
             </div>
         </div>
     </div>
 
     <!-- Sertifikasi -->
-    <div style="margin-top: 30px;">
-        <h2 style="text-align: center; color: #d84315; border-bottom: 2px dashed #333; padding-bottom: 10px;">🏆 Sertifikasi & Penghargaan</h2>
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
-            <img src="image_2b0add.jpg" style="width: 200px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-            <img src="image_2b0ae2.jpg" style="width: 200px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-            <img src="image_2b0afc.jpg" style="width: 200px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+    <div style="margin-top: 40px;">
+        <h2 style="text-align: center; color: #d84315; border-bottom: 3px dashed #333; padding-bottom: 10px;">🏆 Sertifikasi & Penghargaan</h2>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding-top: 15px;">
+            <img src="image_2b0add.jpg" class="sertifikat-img" alt="Sertifikat 1">
+            <img src="image_2b0ae2.jpg" class="sertifikat-img" alt="Sertifikat 2">
+            <img src="image_2b0afc.jpg" class="sertifikat-img" alt="Sertifikat 3">
         </div>
     </div>
 
