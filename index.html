@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SINDARA SEKAR PRAMESWARI | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Preloader -->
+  <div id="preloader" aria-hidden="true">
+    <div class="loader-core">
+      <div class="loader-ring"></div>
+      <span class="loader-text">LOADING</span>
+    </div>
+  </div>
+
+  <!-- Top Scroll Progress & Cursor Spotlight -->
+  <div id="progress" aria-hidden="true"></div>
+  <div id="spotlight" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <header id="topHeader">
+    <div class="wrap">
+      <nav>
+        <a href="#home" class="brand" id="brand" data-sfx="click"></a>
+        <div class="nav-right">
+          <ul id="menu">
+            <li><a href="#about" data-sfx="click">About Me</a></li>
+            <li><a href="#projects" data-sfx="click">Projects</a></li>
+            <li><a href="#experience" data-sfx="click">Experience</a></li>
+            <li><a href="#certificates" data-sfx="click">Certificates</a></li>
+            <li><a href="#contact" data-sfx="click">Contact</a></li>
+          </ul>
+          <button id="sfxToggle" class="sfx-btn" aria-label="Toggle Sound Effects" title="Sound Effects: ON">
+            <span class="sfx-icon" id="sfxIcon">🔊</span>
+            <span class="sfx-label" id="sfxLabel">SFX</span>
+          </button>
+          <button id="burger" aria-label="Menu" data-sfx="click">&#9776;</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="home">
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+      <div class="wrap hero">
+        <div>
+          <h3 class="hero-in" style="--d:120ms">Hello, I'm</h3>
+          <h1 id="name" class="hero-in" style="--d:220ms"></h1>
+          <div class="role hero-in" id="roles" style="--d:320ms"></div>
+          <div class="socials hero-in" id="socials" style="--d:420ms"></div>
+          <div class="hero-cta hero-in" style="--d:520ms">
+            <a class="btn" id="resume1" target="_blank" rel="noopener" data-sfx="click">Resume</a>
+            <a class="btn btn-ghost" href="#projects" data-sfx="click">Explore Projects</a>
+          </div>
+        </div>
+        <div class="photo hero-in" id="heroPhoto" style="--d:260ms"></div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+      <div class="wrap about">
+        <div class="photo reveal from-left" id="aboutPhoto"></div>
+        <div class="reveal from-right" style="--d:120ms">
+          <h2 id="aboutTitle"></h2>
+          <p id="aboutText"></p>
+          <a class="btn" id="resume2" target="_blank" rel="noopener" data-sfx="click">Resume</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+      <div class="wrap">
+        <h2 class="title reveal">My Project</h2>
+        <div class="grid" id="projectGrid"></div>
+      </div>
+    </section>
+
+    <!-- Experience & Education Section -->
+    <section id="experience" style="background:var(--bg2)">
+      <div class="wrap">
+        <h2 class="title reveal">My Experience</h2>
+        <div class="tabs reveal" style="--d:80ms">
+          <button class="on" data-tab="exp">Experience</button>
+          <button data-tab="edu">Education</button>
+        </div>
+        <div class="timeline" id="exp"></div>
+        <div class="timeline" id="edu" hidden></div>
+      </div>
+    </section>
+
+    <!-- Certificates Section -->
+    <section id="certificates">
+      <div class="wrap">
+        <h2 class="title reveal">Certificates</h2>
+        <div class="grid" id="certGrid"></div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="offer">
+      <div class="wrap">
+        <h2 class="title reveal">My Skill</h2>
+        <div class="offer">
+          <div class="box reveal scale-in" style="--d:0ms">
+            <h3 id="skillTitle"></h3>
+            <p id="skillText"></p>
+            <ul class="chips" id="skills"></ul>
+          </div>
+          <div class="box reveal scale-in" style="--d:120ms">
+            <h3 id="softTitle"></h3>
+            <p id="softText"></p>
+            <ul class="chips" id="soft"></ul>
+          </div>
+          <div class="box reveal scale-in" style="--d:240ms">
+            <h3 id="toolTitle"></h3>
+            <p id="toolText"></p>
+            <ul class="chips" id="tools"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" style="background:var(--bg2)">
+      <div class="wrap">
+        <h2 class="title reveal">What They Say About Me</h2>
+        <div class="rail" id="rail"></div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="wrap">
+        <h2 class="title reveal">Contact Me</h2>
+        <p class="intro reveal" id="intro" style="--d:80ms"></p>
+        <div class="contact">
+          <div class="box reveal from-left" style="--d:120ms">
+            <h3>Email</h3>
+            <p id="email"></p>
+            <button class="btn copy" id="copyBtn">Copy Email</button>
+            <h3>Location</h3>
+            <p id="loc"></p>
+            <h3>Social Media</h3>
+            <div class="links" id="cSocials"></div>
+          </div>
+          <div class="box reveal from-right" style="--d:200ms">
+            <h3>Write Me &amp; We'll Talk</h3>
+            <div class="links" id="cMsg" style="margin-top:10px"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer"></footer>
+  <button id="toTop" aria-label="Kembali ke atas">&#8593;</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
