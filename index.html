@@ -7,99 +7,256 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#050914;--bg2:#0a1226;--card:#0e1a35;--line:#1a2b52;--blue:#2f7bff;--cyan:#38bdf8;--text:#e8eefc;--mute:#8da2c8;--r:16px}
+:root{
+  --bg:#050914;--bg2:#0a1226;--card:#0e1a35;--line:#1a2b52;
+  --blue:#2f7bff;--cyan:#38bdf8;--text:#e8eefc;--mute:#8da2c8;--r:16px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:72px}
-body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+body{
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.6;
+  overflow-x:hidden;position:relative;
+}
 a{color:inherit;text-decoration:none}
 ul{list-style:none}
 img{max-width:100%;display:block}
-.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
-section{padding:80px 0}
-h2.title{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800;text-align:center;margin-bottom:44px}
-.btn{display:inline-block;padding:12px 26px;border-radius:999px;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#031024;font-weight:700;border:0;cursor:pointer;font:inherit;font-weight:700;transition:transform .2s,box-shadow .2s}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(47,123,255,.4)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px;position:relative;z-index:2}
+section{padding:80px 0;position:relative;overflow:hidden}
+h2.title{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800;text-align:center;margin-bottom:44px;position:relative}
+h2.title::after{
+  content:"";display:block;width:64px;height:4px;margin:12px auto 0;border-radius:99px;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  transform:scaleX(0);transition:transform .8s var(--ease);
+}
+h2.title.show::after{transform:scaleX(1)}
+
+/* Scroll Progress Bar */
+#progressBar{
+  position:fixed;top:0;left:0;height:3px;width:0%;z-index:100;
+  background:linear-gradient(90deg,var(--blue),var(--cyan),#a78bfa);
+  box-shadow:0 0 12px rgba(56,189,248,.8);
+  transition:width .08s linear;
+}
+
+/* Cursor Spotlight */
+#cursorGlow{
+  position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(520px circle at var(--mx,-500px) var(--my,-500px),rgba(47,123,255,.11),transparent 65%);
+  transition:opacity .3s;
+}
+
+/* Button */
+.btn{
+  position:relative;overflow:hidden;display:inline-block;padding:12px 26px;border-radius:999px;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));color:#031024;
+  border:0;cursor:pointer;font:inherit;font-weight:700;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease);
+}
+.btn::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(120deg,transparent 20%,rgba(255,255,255,.35) 50%,transparent 80%);
+  transform:translateX(-120%);transition:transform .6s var(--ease);
+}
+.btn:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(47,123,255,.45)}
+.btn:hover::after{transform:translateX(120%)}
+.btn:active{transform:translateY(-1px) scale(.98)}
 :focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 .ph{background:linear-gradient(135deg,var(--card),var(--bg2));display:grid;place-items:center;color:var(--mute);font-weight:700}
 
-/* nav */
-header{position:fixed;inset:0 0 auto;z-index:50;background:rgba(5,9,20,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+/* Nav */
+header{
+  position:fixed;inset:0 0 auto;z-index:50;
+  background:rgba(5,9,20,.72);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(26,43,82,.6);
+  transition:background .3s,box-shadow .3s,border-color .3s;
+}
+header.scrolled{
+  background:rgba(5,9,20,.92);
+  border-bottom-color:var(--line);
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
 nav{display:flex;justify-content:space-between;align-items:center;height:64px}
-.brand{font-weight:800;font-size:1.2rem;color:var(--cyan)}
+.brand{
+  font-weight:800;font-size:1.2rem;
+  background:linear-gradient(90deg,var(--cyan),var(--blue),var(--cyan));
+  background-size:200% auto;-webkit-background-clip:text;color:transparent;
+  animation:shimmer 6s linear infinite;
+}
 nav ul{display:flex;gap:28px}
-nav ul a{color:var(--mute);font-weight:500;transition:color .2s}
-nav ul a:hover{color:var(--text)}
+nav ul a{
+  position:relative;color:var(--mute);font-weight:500;padding:4px 0;
+  transition:color .25s;
+}
+nav ul a::after{
+  content:"";position:absolute;left:0;bottom:-2px;width:100%;height:2px;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:2px;
+  transform:scaleX(0);transform-origin:right;transition:transform .3s var(--ease);
+}
+nav ul a:hover,nav ul a.active{color:var(--text)}
+nav ul a:hover::after,nav ul a.active::after{transform:scaleX(1);transform-origin:left}
 #burger{display:none;background:none;border:0;color:var(--text);font-size:1.6rem;cursor:pointer}
 
-/* hero */
-#home{padding-top:140px;min-height:100vh;display:flex;align-items:center;background:radial-gradient(700px 400px at 80% 30%,rgba(47,123,255,.22),transparent 70%)}
+/* Hero */
+#home{
+  padding-top:140px;min-height:100vh;display:flex;align-items:center;
+  background:radial-gradient(700px 420px at 80% 30%,rgba(47,123,255,.22),transparent 70%);
+}
+.orb{
+  position:absolute;border-radius:50%;filter:blur(80px);opacity:.32;pointer-events:none;z-index:0;
+  animation:drift 14s ease-in-out infinite alternate;
+}
+.orb.o1{width:340px;height:340px;background:var(--blue);top:10%;left:-80px}
+.orb.o2{width:300px;height:300px;background:var(--cyan);bottom:8%;right:-60px;animation-delay:-5s}
+
 .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
 .hero h3{font-size:1.2rem;font-weight:500;color:var(--mute)}
-.hero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800;line-height:1.1;margin:6px 0 16px}
-.hero .role{font-size:clamp(1.5rem,4vw,2.4rem);font-weight:800;line-height:1.15;color:var(--cyan)}
+.hero h1{
+  font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800;line-height:1.1;margin:6px 0 16px;
+  background:linear-gradient(135deg,#fff 35%,var(--cyan) 100%);
+  -webkit-background-clip:text;color:transparent;
+}
+.hero .role{font-size:clamp(1.5rem,4vw,2.4rem);font-weight:800;line-height:1.2;color:var(--cyan)}
 .hero .role span{display:block}
+.hero .role span:last-child::after{
+  content:"|";margin-left:6px;color:var(--blue);
+  animation:blink 1s steps(1) infinite;
+}
 .socials{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0}
-.socials a{padding:8px 16px;border:1px solid var(--line);border-radius:999px;font-size:.9rem;color:var(--mute);transition:.2s}
-.socials a:hover{border-color:var(--blue);color:var(--text);background:var(--card)}
-.photo{width:min(380px,100%);aspect-ratio:1;margin:auto;border-radius:50%;overflow:hidden;border:3px solid var(--blue);box-shadow:0 0 60px rgba(47,123,255,.35)}
-.photo img{width:100%;height:100%;object-fit:cover}
-.photo.ph{font-size:4rem}
-.photo.pop{--pop:1.3;position:relative;overflow:visible;background:radial-gradient(circle at 50% 35%,#12306b,#07122a)}
-.photo.pop img{position:absolute;left:0;bottom:0;width:100%;height:calc(var(--pop)*100%);object-fit:contain;object-position:center bottom;clip-path:inset(0 round 0 0 50% 50% / 0 0 calc(50% / var(--pop)) calc(50% / var(--pop)))}
+.socials a{
+  padding:8px 16px;border:1px solid var(--line);border-radius:999px;font-size:.9rem;color:var(--mute);
+  transition:transform .25s var(--ease),border-color .25s,color .25s,background .25s,box-shadow .25s;
+}
+.socials a:hover{
+  transform:translateY(-3px);border-color:var(--cyan);color:var(--text);
+  background:var(--card);box-shadow:0 6px 20px rgba(56,189,248,.22);
+}
 
-/* about */
+.photo{
+  width:min(380px,100%);aspect-ratio:1;margin:auto;border-radius:50%;overflow:hidden;
+  border:3px solid var(--blue);box-shadow:0 0 60px rgba(47,123,255,.35);
+}
+.photo img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.photo.ph{font-size:4rem}
+.photo.pop{
+  --pop:1.3;position:relative;overflow:visible;
+  background:radial-gradient(circle at 50% 35%,#12306b,#07122a);
+  animation:floatY 5.5s ease-in-out infinite,pulseGlow 4s ease-in-out infinite;
+}
+.photo.pop img{
+  position:absolute;left:0;bottom:0;width:100%;height:calc(var(--pop)*100%);
+  object-fit:contain;object-position:center bottom;
+  clip-path:inset(0 round 0 0 50% 50% / 0 0 calc(50% / var(--pop)) calc(50% / var(--pop)));
+  transition:transform .5s var(--ease);
+}
+.photo.pop:hover img{transform:scale(1.03)}
+
+/* Hero initial staggered animation */
+.hero-anim{opacity:0;transform:translateY(26px);animation:heroIn .85s var(--ease) forwards}
+.hero-anim.d1{animation-delay:.08s}
+.hero-anim.d2{animation-delay:.2s}
+.hero-anim.d3{animation-delay:.34s}
+.hero-anim.d4{animation-delay:.48s}
+.hero-anim.d5{animation-delay:.6s}
+.hero-photo-anim{opacity:0;transform:scale(.88) translateY(20px);animation:heroPhotoIn 1s var(--ease) .25s forwards}
+
+/* About */
 #about{background:var(--bg2)}
 .about{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:center}
-.about .photo{border-radius:var(--r);aspect-ratio:4/5;width:min(320px,100%);box-shadow:none}
+.about .photo{border-radius:var(--r);aspect-ratio:4/5;width:min(320px,100%);box-shadow:0 16px 40px rgba(0,0,0,.35)}
+.about .photo:hover img{transform:scale(1.05)}
 .about h2{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800;margin-bottom:14px}
 .about p{color:var(--mute);margin-bottom:24px;max-width:60ch}
 .about b{color:var(--cyan);font-weight:700}
 
-/* projects */
+/* Projects & Certificates */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,border-color .25s}
-.card:hover{transform:translateY(-4px);border-color:var(--blue)}
+.card{
+  position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .35s var(--ease),border-color .35s,box-shadow .35s;
+  transform-style:preserve-3d;will-change:transform;
+}
+.card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:0;z-index:2;
+  background:radial-gradient(320px circle at var(--cx,50%) var(--cy,50%),rgba(56,189,248,.16),transparent 60%);
+  transition:opacity .35s;
+}
+.card:hover{border-color:rgba(56,189,248,.65);box-shadow:0 16px 38px rgba(4,12,32,.65),0 0 24px rgba(47,123,255,.16)}
+.card:hover::before{opacity:1}
 .card .img{aspect-ratio:16/10;overflow:hidden;position:relative}
-.card .img img{width:100%;height:100%;object-fit:cover}
-.card .body{padding:20px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card .img img{width:100%;height:100%;object-fit:cover;transition:transform .55s var(--ease)}
+.card:hover .img img{transform:scale(1.07)}
+.card .body{padding:20px;display:flex;flex-direction:column;gap:6px;flex:1;position:relative;z-index:3}
 .card .meta{display:flex;justify-content:space-between;align-items:center;color:var(--mute);font-size:.85rem}
-.tag{background:rgba(47,123,255,.15);color:var(--cyan);padding:2px 12px;border-radius:999px;font-weight:600}
-.card h3{font-size:1.15rem}
+.tag{background:rgba(47,123,255,.15);color:var(--cyan);padding:2px 12px;border-radius:999px;font-weight:600;border:1px solid rgba(56,189,248,.2)}
+.card h3{font-size:1.15rem;transition:color .25s}
+.card:hover h3{color:var(--cyan)}
 .card p{font-size:.88rem;color:var(--mute);flex:1}
 .card .btn{align-self:flex-start;margin-top:10px;padding:8px 20px;font-size:.9rem}
 .card.cert .img{aspect-ratio:4/3;background:var(--bg2)}
 .card.cert .img a{display:block;height:100%}
 .card.cert .img img{object-fit:contain}
 
-/* experience */
+/* Experience */
 .tabs{display:flex;justify-content:center;gap:10px;margin-bottom:36px}
-.tabs button{padding:10px 26px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--mute);font:inherit;font-weight:600;cursor:pointer;transition:.2s}
-.tabs button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.tabs button{
+  padding:10px 26px;border-radius:999px;border:1px solid var(--line);background:none;
+  color:var(--mute);font:inherit;font-weight:600;cursor:pointer;
+  transition:transform .25s var(--ease),background .25s,border-color .25s,color .25s,box-shadow .25s;
+}
+.tabs button:hover{border-color:var(--cyan);color:var(--text)}
+.tabs button.on{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 6px 20px rgba(47,123,255,.35)}
 .timeline{max-width:760px;margin:0 auto;border-left:2px solid var(--line);padding-left:28px;display:grid;gap:18px}
-.tl{position:relative;display:flex;gap:18px;align-items:flex-start;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px}
-.tl::before{content:"";position:absolute;left:-37px;top:26px;width:14px;height:14px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px var(--bg)}
+.tl{
+  position:relative;display:flex;gap:18px;align-items:flex-start;justify-content:space-between;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;
+  transition:transform .3s var(--ease),border-color .3s,box-shadow .3s;
+}
+.tl:hover{transform:translateX(6px);border-color:var(--blue);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.tl::before{
+  content:"";position:absolute;left:-37px;top:26px;width:14px;height:14px;border-radius:50%;
+  background:var(--blue);box-shadow:0 0 0 4px var(--bg2);
+  transition:transform .3s var(--ease),background .3s,box-shadow .3s;
+}
+.tl:hover::before{transform:scale(1.3);background:var(--cyan);box-shadow:0 0 0 4px var(--bg2),0 0 14px var(--cyan)}
 .tl .txt{flex:1;min-width:0}
 .tl h3{font-size:1.1rem}
 .tl h4{color:var(--cyan);font-weight:600;font-size:.95rem}
 .tl .date{color:var(--mute);font-size:.85rem;margin:2px 0 8px}
 .tl p{color:var(--mute);font-size:.92rem}
 .tl .pic{flex:none;width:160px;aspect-ratio:1;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
-.tl .pic img{width:100%;height:100%;object-fit:cover}
+.tl .pic img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.tl:hover .pic img{transform:scale(1.08)}
 [hidden]{display:none!important}
 @media(max-width:820px){.tl .pic{width:96px}}
 
-/* offer */
+/* Offer / Skills */
 #offer{background:var(--bg2)}
 .offer{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
-.box{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px}
+.box{
+  position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px;
+  transition:transform .35s var(--ease),border-color .35s,box-shadow .35s;
+}
+.box:hover{transform:translateY(-4px);border-color:rgba(56,189,248,.55);box-shadow:0 16px 36px rgba(0,0,0,.35)}
 .box h3{font-size:1.4rem;margin-bottom:8px}
 .box>p{color:var(--mute);margin-bottom:18px;font-size:.95rem}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips li{padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg);font-size:.88rem}
+.chips li{
+  padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg);font-size:.88rem;
+  transition:transform .25s var(--ease),border-color .25s,color .25s,box-shadow .25s;
+}
+.chips li:hover{transform:translateY(-3px) scale(1.04);border-color:var(--cyan);color:var(--cyan);box-shadow:0 4px 14px rgba(56,189,248,.22)}
 
-/* testimonials */
-.rail{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:14px}
-.rail .t{flex:0 0 min(340px,85%);scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px}
+/* Testimonials */
+.rail{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 18px}
+.rail .t{
+  flex:0 0 min(340px,85%);scroll-snap-align:start;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r);padding:24px;
+  transition:transform .3s var(--ease),border-color .3s,box-shadow .3s;
+}
+.rail .t:hover{transform:translateY(-5px);border-color:var(--blue);box-shadow:0 12px 28px rgba(0,0,0,.35)}
 .t header{all:unset;display:flex;align-items:center;gap:14px;margin-bottom:12px}
 .t .av{width:52px;height:52px;border-radius:50%;overflow:hidden;flex:none}
 .t .av img{width:100%;height:100%;object-fit:cover}
@@ -107,36 +264,71 @@ nav ul a:hover{color:var(--text)}
 .t .star{color:#fbbf24;font-size:.85rem}
 .t p{color:var(--mute);font-size:.92rem}
 
-/* contact */
+/* Contact */
 #contact{background:var(--bg2)}
 .contact{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .contact h3{font-size:1.05rem;margin:14px 0 4px;color:var(--cyan)}
 .contact h3:first-child{margin-top:0}
 .contact .box p{color:var(--mute)}
-.contact .intro{text-align:center;color:var(--mute);margin:-28px 0 36px}
+.contact .intro{text-align:center;color:var(--mute);margin:-28px 0 36px;max-width:72ch;margin-inline:auto}
 .links{display:flex;flex-wrap:wrap;gap:10px}
-.links a{padding:8px 18px;border-radius:999px;border:1px solid var(--line);font-size:.9rem;transition:.2s}
-.links a:hover{background:var(--blue);border-color:var(--blue)}
+.links a{
+  padding:8px 18px;border-radius:999px;border:1px solid var(--line);font-size:.9rem;
+  transition:transform .25s var(--ease),background .25s,border-color .25s,box-shadow .25s;
+}
+.links a:hover{transform:translateY(-3px);background:var(--blue);border-color:var(--blue);box-shadow:0 6px 18px rgba(47,123,255,.35)}
 .copy{margin-top:10px;padding:8px 20px;font-size:.9rem}
-footer{text-align:center;padding:28px 0;color:var(--mute);font-size:.88rem;border-top:1px solid var(--line)}
+footer{text-align:center;padding:28px 0;color:var(--mute);font-size:.88rem;border-top:1px solid var(--line);position:relative;z-index:2}
+
+/* Scroll Reveal Classes */
+.reveal{
+  opacity:0;transform:translateY(34px) scale(.98);
+  transition:opacity .75s var(--ease),transform .75s var(--ease);
+  transition-delay:var(--d,0ms);
+}
+.reveal.from-left{transform:translateX(-34px)}
+.reveal.from-right{transform:translateX(34px)}
+.reveal.show{opacity:1;transform:none}
+
+/* Keyframes */
+@keyframes heroIn{to{opacity:1;transform:none}}
+@keyframes heroPhotoIn{to{opacity:1;transform:none}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes pulseGlow{
+  0%,100%{box-shadow:0 0 48px rgba(47,123,255,.32)}
+  50%{box-shadow:0 0 76px rgba(56,189,248,.52)}
+}
+@keyframes shimmer{to{background-position:200% center}}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes drift{
+  0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(40px,30px) scale(1.12)}
+}
 
 @media(max-width:820px){
- #burger{display:block}
- nav ul{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;gap:0;background:var(--bg);border-bottom:1px solid var(--line)}
- nav ul.open{display:flex}
- nav ul a{display:block;padding:14px 20px}
- .hero,.about,.offer,.contact{grid-template-columns:1fr}
- .hero{text-align:center}.socials{justify-content:center}
- .hero .photo{order:-1;width:min(260px,70%)}
- .about .photo{margin:0 auto}
- section{padding:60px 0}
+  #burger{display:block}
+  nav ul{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;gap:0;background:rgba(5,9,20,.96);border-bottom:1px solid var(--line)}
+  nav ul.open{display:flex;animation:heroIn .25s var(--ease)}
+  nav ul a{display:block;padding:14px 20px}
+  nav ul a::after{display:none}
+  .hero,.about,.offer,.contact{grid-template-columns:1fr}
+  .hero{text-align:center}.socials{justify-content:center}
+  .hero .photo{order:-1;width:min(260px,70%)}
+  .about .photo{margin:0 auto}
+  section{padding:60px 0}
 }
-@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .reveal,.hero-anim,.hero-photo-anim{opacity:1!important;transform:none!important}
+}
 </style>
 </head>
 <body>
 
-<header><div class="wrap"><nav>
+<div id="progressBar" aria-hidden="true"></div>
+<div id="cursorGlow" aria-hidden="true"></div>
+
+<header id="siteHeader"><div class="wrap"><nav>
   <a href="#home" class="brand" id="brand"></a>
   <button id="burger" aria-label="Menu">&#9776;</button>
   <ul id="menu">
@@ -149,20 +341,24 @@ footer{text-align:center;padding:28px 0;color:var(--mute);font-size:.88rem;borde
 </nav></div></header>
 
 <main>
-<section id="home"><div class="wrap hero">
-  <div>
-    <h3>Hello, I'm</h3>
-    <h1 id="name"></h1>
-    <div class="role" id="roles"></div>
-    <div class="socials" id="socials"></div>
-    <a class="btn" id="resume1" target="_blank" rel="noopener">Resume</a>
+<section id="home">
+  <div class="orb o1" aria-hidden="true"></div>
+  <div class="orb o2" aria-hidden="true"></div>
+  <div class="wrap hero">
+    <div>
+      <h3 class="hero-anim d1">Hello, I'm</h3>
+      <h1 id="name" class="hero-anim d2"></h1>
+      <div class="role hero-anim d3" id="roles"></div>
+      <div class="socials hero-anim d4" id="socials"></div>
+      <a class="btn hero-anim d5" id="resume1" target="_blank" rel="noopener">Resume</a>
+    </div>
+    <div class="photo hero-photo-anim" id="heroPhoto"></div>
   </div>
-  <div class="photo" id="heroPhoto"></div>
-</div></section>
+</section>
 
 <section id="about"><div class="wrap about">
-  <div class="photo" id="aboutPhoto"></div>
-  <div>
+  <div class="photo reveal from-left" id="aboutPhoto"></div>
+  <div class="reveal from-right" style="--d:120ms">
     <h2 id="aboutTitle"></h2>
     <p id="aboutText"></p>
     <a class="btn" id="resume2" target="_blank" rel="noopener">Resume</a>
@@ -170,13 +366,13 @@ footer{text-align:center;padding:28px 0;color:var(--mute);font-size:.88rem;borde
 </div></section>
 
 <section id="projects"><div class="wrap">
-  <h2 class="title">My Project</h2>
+  <h2 class="title reveal">My Project</h2>
   <div class="grid" id="projectGrid"></div>
 </div></section>
 
 <section id="experience" style="background:var(--bg2)"><div class="wrap">
-  <h2 class="title">My Experience</h2>
-  <div class="tabs">
+  <h2 class="title reveal">My Experience</h2>
+  <div class="tabs reveal" style="--d:80ms">
     <button class="on" data-tab="exp">Experience</button>
     <button data-tab="edu">Education</button>
   </div>
@@ -185,35 +381,35 @@ footer{text-align:center;padding:28px 0;color:var(--mute);font-size:.88rem;borde
 </div></section>
 
 <section id="certificates"><div class="wrap">
-  <h2 class="title">Certificates</h2>
+  <h2 class="title reveal">Certificates</h2>
   <div class="grid" id="certGrid"></div>
 </div></section>
 
 <section id="offer"><div class="wrap">
-  <h2 class="title">My Skill</h2>
+  <h2 class="title reveal">My Skill</h2>
   <div class="offer">
-    <div class="box"><h3 id="skillTitle"></h3><p id="skillText"></p><ul class="chips" id="skills"></ul></div>
-    <div class="box"><h3 id="softTitle"></h3><p id="softText"></p><ul class="chips" id="soft"></ul></div>
-    <div class="box"><h3 id="toolTitle"></h3><p id="toolText"></p><ul class="chips" id="tools"></ul></div>
+    <div class="box reveal" style="--d:0ms"><h3 id="skillTitle"></h3><p id="skillText"></p><ul class="chips" id="skills"></ul></div>
+    <div class="box reveal" style="--d:100ms"><h3 id="softTitle"></h3><p id="softText"></p><ul class="chips" id="soft"></ul></div>
+    <div class="box reveal" style="--d:200ms"><h3 id="toolTitle"></h3><p id="toolText"></p><ul class="chips" id="tools"></ul></div>
   </div>
 </div></section>
 
 <section id="testimonials" style="background:var(--bg2)"><div class="wrap">
-  <h2 class="title">What They Say About Me</h2>
+  <h2 class="title reveal">What They Say About Me</h2>
   <div class="rail" id="rail"></div>
 </div></section>
 
 <section id="contact"><div class="wrap">
-  <h2 class="title">Contact Me</h2>
-  <p class="intro" id="intro"></p>
+  <h2 class="title reveal">Contact Me</h2>
+  <p class="intro reveal" id="intro" style="--d:80ms"></p>
   <div class="contact">
-    <div class="box">
+    <div class="box reveal from-left" style="--d:120ms">
       <h3>Email</h3><p id="email"></p>
       <button class="btn copy" id="copyBtn">Copy Email</button>
       <h3>Location</h3><p id="loc"></p>
       <h3>Social Media</h3><div class="links" id="cSocials"></div>
     </div>
-    <div class="box">
+    <div class="box reveal from-right" style="--d:200ms">
       <h3>Write Me &amp; We'll Talk</h3>
       <div class="links" id="cMsg" style="margin-top:10px"></div>
     </div>
@@ -234,8 +430,8 @@ const DATA = {
   name: "SINDARA SEKAR PRAMESWARI",
   roles: ["Computer Engineering", "FT UNNES", ""],
   photo: "pfp.png",                       // contoh: "assets/img/hero.png"
-  aboutPhoto: "about.png",                  // contoh: "assets/img/about.png"
-  resume: "",                      // contoh: "assets/pdf/CV-Nama.pdf"
+  aboutPhoto: "about.png",                // contoh: "assets/img/about.png"
+  resume: "",                             // contoh: "assets/pdf/CV-Nama.pdf"
   socials: [
     { label: "LinkedIn",  url: "https://linkedin.com/in/sindara-prameswari-080764320/" },
     { label: "Tiktok",    url: "https://tiktok.com/@sindchannn" },
@@ -249,11 +445,10 @@ const DATA = {
     { tag: "AI",      title: "Melanoma Detection Using Transfer Learning: A Comparative Study of ResNet50, EfficientNetB3, and MobileNetV2 on Dermoscopic Images", stack: "Training Model, Riset, Publish Jurnal", image: "metopen.png", link: "https://drive.google.com/file/d/1TQtw8IIYTzgAankqp2lMUInVoC1Sg8lq/view?usp=sharing" },
     { tag: "Hardware", title: "Smart Solar Tracker use PID Controller", stack: "Arduino, Sensor LDR, Motor DC, Phyton",   image: "smartsolar.png", link: "https://drive.google.com/file/d/1BeML4FmaLb0tEy_ilJazfbrUUZO3qvux/view?usp=sharing" },
     { tag: "App",      title: "SienceHub Education App", stack: "Android studio, GitHub, Kotlin, SQL",         image: "Sciencehub.png", link: "https://drive.google.com/file/d/1hXYFhzf6q0hD3zh3g5ABB-GxIkPpmzJ3/view?usp=sharing" },
-    { tag: "Web",      title: "smpnsatujapah.sch.id", stack: "HTML, Javascript, Bisnis",image: "smpn1japah.png", link: "smpnsatujapah.sch.id" },
+    { tag: "Web",      title: "smpnsatujapah.sch.id", stack: "HTML, Javascript, Bisnis",image: "smpn1japah.png", link: "https://smpnsatujapah.sch.id" },
     { tag: "Jaringan Komputer", title: "Membangun Simulasi Jaringan Komputer Di Gedung D4 Fakultas Matematika Dan Ilmu Pengetahuan Alam Universitas Negeri Semarang", stack: "Analisis Gedung, Cisco treacer, Gambar Teknik",image: "jarkom.png", link: "https://drive.google.com/file/d/1dwad3QTvORkI9UUCbkJdVj7tPo57d3jL/view?usp=sharing" },
     { tag: "Hardware",      title: "Smart Skin Detector for perfect cushion selection", stack: "Arduino, Sensor Warna, KNN.",image: "smartskin.png", link: "https://drive.google.com/file/d/1YpNxUBNyzHQAweitoLu_v6Smu2FuDIwM/view?usp=sharing" },
     { tag: "Matlab ",      title: "FIR design and Noise cancelling assigment", stack: "Matlab, Filter, Voice",image: "matlab.png", link: "https://drive.google.com/file/d/1c7s2QzyEfVBiuDi7M59ORsxZa5tyxElf/view?usp=sharing" }
-
   ],
   experience: [
     { title: "Staf Ahli", place: "Departemen F HIMPROTE FT UNNES", date: "2025 - Sekarang",image: "himpro.png", desc: "Selama Menjadi Staf Ahli Departemen Teknologi Informasi dan Komunikasi di HIMPROTE saya banyak belajar mengenai Adobe dan sudah menguasai Canva, Aligh Motion dan Mengelola Sosial Media secara utuh." },
@@ -273,39 +468,33 @@ const DATA = {
     { title: "Pendamping Mahasiswa baru Teknik Elektro", place: "ELCO 2025", date: "2025", image: "ikpk.png",  desc: "Menjadi pembimbing selama masa orientasi kampus membuat saya belajar betapa pentingnya peran saya untuk memberitahu dan mengomunikasikan kepada mahasiswa baru untuk mengenal lingkungan baru sekaligus membangun relasi antar angkatan." },
     { title: "Presidium III", place: "MTMTE 2025 FT UNNES", date: "2026",  image: "mtmte.png",  desc: "Menjadi Presidium III saat sidang membuat saya belajar mendengarkan dan memahami debat kritis dan mempelajari peenulisan pergantian undang-undang saat debat berlangsung." },
     { title: "Presidium III", place: "Pamuker HMW FT UNNES", date: "2026",  image: "pamuker.png",  desc: "Menjadi Presidium III saat sidang membuat saya belajar mendengarkan dan memahami debat kritis dan mempelajari peenulisan pergantian undang-undang saat debat berlangsung." },
-    { title: "Moderator", place: "Dialog Akademik", date: "2025", image: "moderator.png", desc: "Sie Acara Sekaligus Moderator yang menghimpun mahasiswa teknik Elektro untuk berkeluh kesah mengenai fasilitas, sarpras, dan SDM di Lingkungan Teknik Elektro melalui sosialisasi advokasi." },
-
+    { title: "Moderator", place: "Dialog Akademik", date: "2025", image: "moderator.png", desc: "Sie Acara Sekaligus Moderator yang menghimpun mahasiswa teknik Elektro untuk berkeluh kesah mengenai fasilitas, sarpras, dan SDM di Lingkungan Teknik Elektro melalui sosialisasi advokasi." }
   ],
   education: [
     { title: "S1 Teknik Komputer",  place: "Universitas Negeri Semarang", date: "2024 - Sekarang", desc: "Saat di Perkuliahan selain fokus pada akademik saya juga aktif di 2 organisasi Himpunan di FT UNNES namun saya lebih fokus kepada nilai akademik dan project individu maupun kelompok" },
     { title: "Jurusan IPA",  place: "SMA Negeri 1 Demak",     date: "2021 - 2024",     desc: "Saya Pernah meraih Juara 4 di Mapel Teknik Informatika saat seleksi olimpiade di lingkungan sekolah" },
     { title: "Kelas Unggulan",  place: "SMP Negeri 1 Demak",     date: "2017 - 2021",     desc: "Saya Mengisi Kelas Unggulan Selama 3 Tahun berturut-turut hingga lulus dan berbahasa inggris dalam pembelajaran sehari hari" },
-    { title: "Bustanu Usyaqil Quran",  place: "SDS BUQ Betengan Demak",     date: "2011 - 2017",     desc: "Saya Khatam Qiraati pada umur 9 tahun dan khatam alquran pada umur 12 tahun saat menempuh pendidikan SD" },
-  
+    { title: "Bustanu Usyaqil Quran",  place: "SDS BUQ Betengan Demak",     date: "2011 - 2017",     desc: "Saya Khatam Qiraati pada umur 9 tahun dan khatam alquran pada umur 12 tahun saat menempuh pendidikan SD" }
   ],
-
   certificates: [
-  { tag: "Pelatihan", title: "Pelatihan menejemen kepeminpinan", issuer: "HIMPROTE FT UNNES", date: "2025", image: "pmkte.png", link: "https://drive.google.com/file/d/1D6xC_zZmYbIPLXzWnrWY5FhO1UlmQ4JS/view?usp=sharing" },
-  { tag: "Pelatihan", title: "Pelatihan Public Speaking", issuer: "B1G FAIR", date: "2025", image: "ps.png", link: "https://drive.google.com/file/d/13pAqoS6pRK7QAPZYyS4YUANeNDg4PxfH/view?usp=sharing" },
-  { tag: "Pelatihan", title: "Pelatihan Career Preparation", issuer: "B1G FAIR in collaboration with BEM FEB UPGRIS", date: "2025", image: "cp.png", link: "https://drive.google.com/file/d/1-P5EKZ0Cq7sYJ1F9U41-UgvovBPlEgBj/view?usp=sharing" },
-  { tag: "Pelatihan", title: "Pelatihan Entrepreneur", issuer: "B1G FAIR in collaboration with BEM FEB UNNES", date: "2025", image: "ep.png", link: "https://drive.google.com/file/d/1Lpaxu7otZJlrQrv5UbSXIs98scuQLh1C/view?usp=sharing" },
-  { tag: "Penghargaan",  title: "Trust Training Partners", issuer: "Microsoft Office", date: "2025", image: "microsoft.png", link: "https://drive.google.com/file/d/1DIaBYQCerHEd7HoxyEneBVcT0Hw1a6JZ/view?usp=sharing" },
-  { tag: "Penghargaan",  title: "International Youth Goals Singapre,Malaysia and Thailand Batch 2", issuer: "B1G FAIR in collaboration with Olpedia Education Center", date: "2025", image: "iyg.png", link: "https://drive.google.com/file/d/1qFVByK_ff28Xg6Zmge-sPuwmLo8kNw8Y/view?usp=sharing" },
-  { tag: "Panitia",     title: "Sertifikat ELCO 2026", issuer: "HIMPROTE FT UNNES", date: "2026", image: "sertifelco.png", link: "" },
-  { tag: "Panitia",     title: "Sertifikat Class Multimedia Skill 2026", issuer: "HIMPROTE FT UNNES", date: "2026", image: "sertifcms.png", link: "" },
-  { tag: "Panitia",     title: "Sertifikat Electrical Cup 2025", issuer: "HIMPROTE FT UNNES", date: "2026", image: "sertifelcup.png", link: "" },
-  { tag: "Panitia",     title: "Sertifikat Pelatian Administrasi dan Sponsorship 2026", issuer: "HIMPROTE FT UNNES", date: "2026", image: "sertifpas.png", link: "" },
-  { tag: "Panitia",     title: "Sertifikat PILMAPRES 2026", issuer: "HIMPROTE FT UNNES", date: "2026", image: "sertifpilmapres.png", link: "" },
-
-],
-  
+    { tag: "Pelatihan", title: "Pelatihan menejemen kepeminpinan", issuer: "HIMPROTE FT UNNES", date: "2025", image: "pmkte.png", link: "https://drive.google.com/file/d/1D6xC_zZmYbIPLXzWnrWY5FhO1UlmQ4JS/view?usp=sharing" },
+    { tag: "Pelatihan", title: "Pelatihan Public Speaking", issuer: "B1G FAIR", date: "2025", image: "ps.png", link: "https://drive.google.com/file/d/13pAqoS6pRK7QAPZYyS4YUANeNDg4PxfH/view?usp=sharing" },
+    { tag: "Pelatihan", title: "Pelatihan Career Preparation", issuer: "B1G FAIR in collaboration with BEM FEB UPGRIS", date: "2025", image: "cp.png", link: "https://drive.google.com/file/d/1-P5EKZ0Cq7sYJ1F9U41-UgvovBPlEgBj/view?usp=sharing" },
+    { tag: "Pelatihan", title: "Pelatihan Entrepreneur", issuer: "B1G FAIR in collaboration with BEM FEB UNNES", date: "2025", image: "ep.png", link: "https://drive.google.com/file/d/1Lpaxu7otZJlrQrv5UbSXIs98scuQLh1C/view?usp=sharing" },
+    { tag: "Penghargaan",  title: "Trust Training Partners", issuer: "Microsoft Office", date: "2025", image: "microsoft.png", link: "https://drive.google.com/file/d/1DIaBYQCerHEd7HoxyEneBVcT0Hw1a6JZ/view?usp=sharing" },
+    { tag: "Penghargaan",  title: "International Youth Goals Singapre,Malaysia and Thailand Batch 2", issuer: "B1G FAIR in collaboration with Olpedia Education Center", date: "2025", image: "iyg.png", link: "https://drive.google.com/file/d/1qFVByK_ff28Xg6Zmge-sPuwmLo8kNw8Y/view?usp=sharing" },
+    { tag: "Panitia",     title: "Sertifikat ELCO 2026", issuer: "HIMPROTE FT UNNES", date: "2026", image: "sertifelco.png", link: "" },
+    { tag: "Panitia",     title: "Sertifikat Class Multimedia Skill 2026", issuer: "HIMPROTE FT UNNES", date: "2026", image: "sertifcms.png", link: "" },
+    { tag: "Panitia",     title: "Sertifikat Electrical Cup 2025", issuer: "HIMPROTE FT UNNES", date: "2026", image: "sertifelcup.png", link: "" },
+    { tag: "Panitia",     title: "Sertifikat Pelatian Administrasi dan Sponsorship 2026", issuer: "HIMPROTE FT UNNES", date: "2026", image: "sertifpas.png", link: "" },
+    { tag: "Panitia",     title: "Sertifikat PILMAPRES 2026", issuer: "HIMPROTE FT UNNES", date: "2026", image: "sertifpilmapres.png", link: "" }
+  ],
   skillsBox: { title: "Technical Skills", text: "Saya mampu mengaplikasikan ide saya dengan baik dan mengomunikasikannya melalui media informatif." },
-skills: ["MATLAB", "Python", "Arduino", "HTML", "SQL", "PHP", "JavaScript"],
-softBox: { title: "Soft Skills", text: "Saya mampu berbicara didepan banyak orang, dan menjadi orang yang komunikatif di dalam tim. berdasarkan pengalaman berorganisasi manajemen waktu saya dinilai baik." },
-softSkills: ["Komunikatif", "Public Speaking", "Disiplin", "Berpenampilan rapi", "Bekerja dalam Tim", "Kreativitas"],
-toolsBox: { title: "Tools I Use", text: "Berikut adalah Tools yang saya gunakan untuk membantu saya bekerja." },
-tools: ["VS Code", "MATLAB", "Arduino IDE", "HTML", "Adobe Photoshop", "GitHub", "Figma", "SQL", "Canva"],
-
+  skills: ["MATLAB", "Python", "Arduino", "HTML", "SQL", "PHP", "JavaScript"],
+  softBox: { title: "Soft Skills", text: "Saya mampu berbicara didepan banyak orang, dan menjadi orang yang komunikatif di dalam tim. berdasarkan pengalaman berorganisasi manajemen waktu saya dinilai baik." },
+  softSkills: ["Komunikatif", "Public Speaking", "Disiplin", "Berpenampilan rapi", "Bekerja dalam Tim", "Kreativitas"],
+  toolsBox: { title: "Tools I Use", text: "Berikut adalah Tools yang saya gunakan untuk membantu saya bekerja." },
+  tools: ["VS Code", "MATLAB", "Arduino IDE", "HTML", "Adobe Photoshop", "GitHub", "Figma", "SQL", "Canva"],
   testimonials: [
     { photo: "", role: "Dosen",  rating: "4.9", text: "Sejujurnya Kelompok kalian adalah kelompok terbaik dan paling rapi dalam penulisan, risetnya juga sudah sangat bagus sekali setara Q3 Scopus. (AI)" },
     { photo: "", role: "Ketua Tim",       rating: "5.0", text: "Kemampuan Sindara Sudah memumpuni untuk membuat sumulasi rangkaian dan cara kerjanya, ide project ini juga berasal dari sindara. (Smart Solar Tracker)" },
@@ -324,10 +513,10 @@ tools: ["VS Code", "MATLAB", "Arduino IDE", "HTML", "Adobe Photoshop", "GitHub",
   footer: "All Rights Reserved By Sindara"
 };
 
-/* ---------- render (tidak perlu diubah) ---------- */
+/* ---------- render ---------- */
 const $ = id => document.getElementById(id);
 const initials = s => s.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
-const link = (l, cls) => `<a href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`;
+const link = l => `<a href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`;
 const media = (el, src, alt, label) => {
   if (src) el.innerHTML = `<img src="${src}" alt="${alt}" loading="lazy">`;
   else { el.classList.add('ph'); el.textContent = label; }
@@ -336,7 +525,7 @@ const media = (el, src, alt, label) => {
 document.title = DATA.name + ' | Portfolio';
 $('brand').textContent = DATA.brand;
 $('name').textContent = DATA.name;
-$('roles').innerHTML = DATA.roles.map(r => `<span>${r}</span>`).join('');
+$('roles').innerHTML = DATA.roles.filter(Boolean).map(r => `<span>${r}</span>`).join('');
 $('socials').innerHTML = DATA.socials.map(link).join('');
 ['resume1', 'resume2'].forEach(id => { DATA.resume ? $(id).href = DATA.resume : $(id).hidden = true; });
 media($('heroPhoto'), DATA.photo, DATA.name, initials(DATA.name));
@@ -346,7 +535,7 @@ $('aboutTitle').textContent = DATA.about.title;
 $('aboutText').innerHTML = DATA.about.text;
 
 $('projectGrid').innerHTML = DATA.projects.map((p, i) => `
-  <article class="card">
+  <article class="card reveal" style="--d:${(i % 3) * 90}ms">
     <div class="img ${p.image ? '' : 'ph'}">${p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy">` : 'Project Image'}</div>
     <div class="body">
       <div class="meta"><span class="tag">${p.tag}</span><span>#${String(i + 1).padStart(2, '0')}</span></div>
@@ -356,23 +545,18 @@ $('projectGrid').innerHTML = DATA.projects.map((p, i) => `
     </div>
   </article>`).join('');
 
-const tl = arr => arr.map(e => `
-  <div class="tl">
+const tl = arr => arr.map((e, i) => `
+  <div class="tl reveal" style="--d:${Math.min(i, 4) * 70}ms">
     <div class="txt"><h3>${e.title}</h3><h4>${e.place}</h4><div class="date">${e.date}</div><p>${e.desc}</p></div>
     ${e.image ? `<div class="pic"><img src="${e.image}" alt="${e.title}" loading="lazy"></div>` : ''}
   </div>`).join('');
 $('exp').innerHTML = tl(DATA.experience);
 $('edu').innerHTML = tl(DATA.education);
-document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
-  document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
-  $('exp').hidden = b.dataset.tab !== 'exp';
-  $('edu').hidden = b.dataset.tab !== 'edu';
-});
 
-$('certGrid').innerHTML = DATA.certificates.map(c => {
+$('certGrid').innerHTML = DATA.certificates.map((c, i) => {
   const href = c.link || c.image;
   return `
-  <article class="card cert">
+  <article class="card cert reveal" style="--d:${(i % 3) * 90}ms">
     <div class="img ${c.image ? '' : 'ph'}">${c.image ? `<img src="${c.image}" alt="${c.title}" loading="lazy">` : 'Certificate'}</div>
     <div class="body">
       <div class="meta"><span class="tag">${c.tag}</span><span>${c.date}</span></div>
@@ -395,8 +579,8 @@ $('toolTitle').textContent = DATA.toolsBox.title;
 $('toolText').textContent = DATA.toolsBox.text;
 $('tools').innerHTML = DATA.tools.map(s => `<li>${s}</li>`).join('');
 
-$('rail').innerHTML = DATA.testimonials.map(t => `
-  <div class="t">
+$('rail').innerHTML = DATA.testimonials.map((t, i) => `
+  <div class="t reveal" style="--d:${i * 100}ms">
     <header><div class="av ${t.photo ? '' : 'ph'}">${t.photo ? `<img src="${t.photo}" alt="${t.role}">` : '&#9679;'}</div>
     <div><h3>${t.role}</h3><span class="star">&#9733; ${t.rating}</span></div></header>
     <p>${t.text}</p>
@@ -408,7 +592,7 @@ $('loc').textContent = DATA.contact.location;
 $('cSocials').innerHTML = DATA.socials.map(link).join('');
 $('cMsg').innerHTML = DATA.contact.message.map(link).join('');
 $('copyBtn').onclick = async e => {
-  try { await navigator.clipboard.writeText(DATA.contact.email); e.target.textContent = 'Copied'; }
+  try { await navigator.clipboard.writeText(DATA.contact.email); e.target.textContent = 'Copied!'; }
   catch { e.target.textContent = DATA.contact.email; }
   setTimeout(() => e.target.textContent = 'Copy Email', 1800);
 };
@@ -416,6 +600,81 @@ $('footer').textContent = '\u00A9 ' + new Date().getFullYear() + ' ' + DATA.foot
 
 $('burger').onclick = () => $('menu').classList.toggle('open');
 $('menu').onclick = () => $('menu').classList.remove('open');
+
+/* ---------- Animations & Interactions ---------- */
+// 1. Scroll Reveal
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+
+const observeReveals = (root = document) => {
+  root.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+};
+observeReveals();
+
+// 2. Experience / Education Tabs with Smooth Re-reveal
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
+  const targetId = b.dataset.tab;
+  $('exp').hidden = targetId !== 'exp';
+  $('edu').hidden = targetId !== 'edu';
+  const activeList = $(targetId);
+  activeList.querySelectorAll('.reveal').forEach(el => {
+    el.classList.remove('show');
+    revealObserver.observe(el);
+  });
+});
+
+// 3. Scroll Progress Bar & Navbar Active State
+const progressBar = $('progressBar');
+const siteHeader = $('siteHeader');
+const navLinks = [...document.querySelectorAll('#menu a')];
+const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+const onScroll = () => {
+  const y = window.scrollY;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = max > 0 ? (y / max * 100) + '%' : '0%';
+  siteHeader.classList.toggle('scrolled', y > 24);
+
+  let current = '';
+  sections.forEach(sec => {
+    if (y >= sec.offsetTop - 140) current = '#' + sec.id;
+  });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === current));
+};
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// 4. Cursor Spotlight & Subtle 3D Card Tilt (Desktop Only)
+if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const glow = $('cursorGlow');
+  window.addEventListener('pointermove', e => {
+    glow.style.setProperty('--mx', e.clientX + 'px');
+    glow.style.setProperty('--my', e.clientY + 'px');
+  }, { passive: true });
+
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('pointermove', e => {
+      const r = card.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      const rx = ((y / r.height) - 0.5) * -7;
+      const ry = ((x / r.width) - 0.5) * 7;
+      card.style.setProperty('--cx', x + 'px');
+      card.style.setProperty('--cy', y + 'px');
+      card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-5px)`;
+    });
+    card.addEventListener('pointerleave', () => {
+      card.style.transform = '';
+    });
+  });
+}
 </script>
 </body>
 </html>
